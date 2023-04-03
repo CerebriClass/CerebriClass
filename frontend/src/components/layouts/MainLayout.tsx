@@ -14,8 +14,8 @@ const PageWrapper = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
   margin-top: 5rem;
+  padding-top: 2rem;
 `;

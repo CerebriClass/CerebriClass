@@ -12,6 +12,7 @@ frontend
 - vite + pnpm
 - @emotion/styled
 - react-responsive
+- react-hook-form
 - jotai
 - ky
 
