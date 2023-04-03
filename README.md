@@ -8,4 +8,5 @@ frontend
 requester
 
 - python
+- fastapi
 - openai
