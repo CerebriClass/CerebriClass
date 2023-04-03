@@ -27,4 +27,6 @@ async def root():
 
 @app.post('/question/blank')
 async def blank(item: Item):
-    return make_blank_question([item.word], 5)
+    result = make_blank_question(item.word, item.count)
+    json = {"result": result}
+    return json

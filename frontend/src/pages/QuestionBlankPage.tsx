@@ -8,13 +8,21 @@ type FormType = {
   count: number;
 };
 
+type ResultType = {
+  result: string[];
+};
+
 export const QuestionBlankPage = () => {
-  const { register, handleSubmit } = useForm<FormType>();
-  const [result, setResult] = useState<string>('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormType>();
+  const [results, setResults] = useState<string[]>([]);
 
   const onSubmit = async (data: FormType) => {
-    const json = await post('/question/blank', data);
-    setResult(JSON.stringify(json));
+    const json = (await post('/question/blank', data)) as ResultType;
+    setResults(json.result);
   };
 
   return (
@@ -32,16 +40,22 @@ export const QuestionBlankPage = () => {
               <input
                 type="number"
                 defaultValue={1}
-                {...register('count', { required: true })}
+                {...register('count', { required: true, max: 10 })}
               />
             </HStack>
+            {errors.word && <p>단어를 입력해주세요.</p>}
+            {errors.count && <p>개수는 1~10만 가능합니다.</p>}
             <input type="submit" />
           </VStack>
         </form>
       </VStack>
       <VStack spacing="2rem">
         <h1>출력 결과</h1>
-        <p>{result}</p>
+        <VStack align="start" spacing="1rem">
+          {results.map((result, idx) => (
+            <p key={idx}>{result}</p>
+          ))}
+        </VStack>
       </VStack>
     </VStack>
   );
