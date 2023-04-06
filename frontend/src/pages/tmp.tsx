@@ -1,5 +1,5 @@
 import { HStack, VStack } from '@/components/common';
-import { post } from '@/utils/ky';
+import { postJSON } from '@/utils/ky';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -12,7 +12,7 @@ type ResultType = {
   result: string[];
 };
 
-export const QuestionBlankPage = () => {
+export const CreatePage = () => {
   const {
     register,
     handleSubmit,
@@ -21,7 +21,7 @@ export const QuestionBlankPage = () => {
   const [results, setResults] = useState<string[]>([]);
 
   const onSubmit = async (data: FormType) => {
-    const json = (await post('/question/blank', data)) as ResultType;
+    const json = (await postJSON('/question/blank', data)) as ResultType;
     setResults(json.result);
   };
 

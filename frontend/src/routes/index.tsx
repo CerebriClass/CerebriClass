@@ -7,17 +7,10 @@ const { LandingPage } = lazyImport(
   () => import('@/pages/LandingPage'),
   'LandingPage'
 );
-const { QuestionBlankPage } = lazyImport(
-  () => import('@/pages/QuestionBlankPage'),
-  'QuestionBlankPage'
-);
-const { QuestionSynonymPage } = lazyImport(
-  () => import('@/pages/QuestionSynonymPage'),
-  'QuestionSynonymPage'
-);
-const { MakePdfPage } = lazyImport(
-  () => import('@/pages/MakePdfPage'),
-  'MakePdfPage'
+
+const { CreateWorkbookPage } = lazyImport(
+  () => import('@/pages/CreateWorkbookPage'),
+  'CreateWorkbookPage'
 );
 const { ErrorPage } = lazyImport(
   () => import('@/pages/ErrorPage'),
@@ -41,9 +34,7 @@ export const AppRoutes = () => {
       element: <App />,
       children: [
         { path: '/', element: <LandingPage /> },
-        { path: '/question/blank', element: <QuestionBlankPage /> },
-        { path: '/question/synonym', element: <QuestionSynonymPage /> },
-        { path: '/make-pdf', element: <MakePdfPage /> },
+        { path: '/create-workbook', element: <CreateWorkbookPage /> },
         { path: '/404', element: <ErrorPage statusCode={404} /> },
       ],
     },
