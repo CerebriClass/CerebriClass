@@ -10,25 +10,27 @@ type FormType = {
 };
 
 type ResultType = {
-  downloadUrl: string;
+  workSheetUrl: string;
+  answerSheetUrl: string;
 };
 
-export const CreateWorkbookPage = () => {
+export const CreateWorkSheetPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormType>();
-  const [downloadUrl, setDownloadUrl] = useState<string>('');
+  const [workSheetUrl, setWorkSheetUrl] = useState<string>('');
+  const [answerSheetUrl, setAnswerSheetUrl] = useState<string>('');
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isGenerated, setIsGenerated] = useState<boolean>(false);
 
-  const downloadFile = async (url: string) => {
+  const downloadFile = async (url: string, filename: string) => {
     const response = await get(url);
     const blob = await response.blob();
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.download = 'workbook.docx';
+    link.download = `${filename}.docx`;
     link.click();
   };
 
@@ -41,8 +43,12 @@ export const CreateWorkbookPage = () => {
           .filter(Boolean),
       };
       setIsSubmitted(true);
-      const json = (await postJSON('/create-workbook', newData)) as ResultType;
-      setDownloadUrl(json.downloadUrl);
+      const json = (await postJSON(
+        '/create-work-sheet',
+        newData
+      )) as ResultType;
+      setWorkSheetUrl(json.workSheetUrl);
+      setAnswerSheetUrl(json.answerSheetUrl);
       setIsGenerated(true);
     } catch (e) {
       alert(e);
@@ -63,10 +69,16 @@ export const CreateWorkbookPage = () => {
       </form>
       {isSubmitted && !isGenerated && <p>학습지 제작 중...</p>}
       {isGenerated && (
-        <Button
-          onClick={() => downloadFile(downloadUrl)}
-          element={<p>학습지 다운로드</p>}
-        ></Button>
+        <>
+          <Button
+            onClick={() => downloadFile(workSheetUrl, 'work-sheet')}
+            element={<p>학습지 다운로드</p>}
+          />
+          <Button
+            onClick={() => downloadFile(answerSheetUrl, 'answer-sheet')}
+            element={<p>해설 다운로드</p>}
+          />
+        </>
       )}
     </VStack>
   );

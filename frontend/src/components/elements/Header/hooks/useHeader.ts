@@ -1,7 +1,7 @@
 export const useHeader = () => {
   const links = [
     { label: '홈', to: '/' },
-    { label: '문제 만들기', to: '/create-workbook' },
+    { label: '문제 만들기', to: '/create-work-sheet' },
   ];
   return { links };
 };
