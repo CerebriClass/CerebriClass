@@ -7,21 +7,22 @@ import { useForm } from 'react-hook-form';
 
 type FormType = {
   rawText: string;
+  engWordQuiz: boolean;
+  korWordQuiz: boolean;
+  blankQuiz: boolean;
 };
 
 type ResultType = {
-  workSheetUrl: string;
-  answerSheetUrl: string;
+  sheetUrl: string;
 };
 
-export const CreateWorkSheetPage = () => {
+export const CreateSheetPage = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormType>();
-  const [workSheetUrl, setWorkSheetUrl] = useState<string>('');
-  const [answerSheetUrl, setAnswerSheetUrl] = useState<string>('');
+  const [sheetUrl, setSheetUrl] = useState<string>('');
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isGenerated, setIsGenerated] = useState<boolean>(false);
 
@@ -41,14 +42,15 @@ export const CreateWorkSheetPage = () => {
           .split(',')
           .map((word) => word.trim())
           .filter(Boolean),
+        types: [
+          data.engWordQuiz && 'eng_word_quiz',
+          data.korWordQuiz && 'kor_word_quiz',
+          data.blankQuiz && 'blank_quiz',
+        ].filter(Boolean),
       };
       setIsSubmitted(true);
-      const json = (await postJSON(
-        '/create-work-sheet',
-        newData
-      )) as ResultType;
-      setWorkSheetUrl(json.workSheetUrl);
-      setAnswerSheetUrl(json.answerSheetUrl);
+      const json = (await postJSON('/create-sheet', newData)) as ResultType;
+      setSheetUrl(json.sheetUrl);
       setIsGenerated(true);
     } catch (e) {
       alert(e);
@@ -62,23 +64,41 @@ export const CreateWorkSheetPage = () => {
         constitutional, neural, diverse, proverb, misguided, absolute, expert
       </p>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <HStack spacing="1rem">
+        <VStack spacing="1rem">
           <FormRawTextInput {...register('rawText', { required: true })} />
+          <HStack spacing="1rem">
+            <input
+              type="checkbox"
+              {...register('engWordQuiz')}
+              defaultChecked={true}
+            />
+            <span>영어에 맞는 뜻 고르기</span>
+          </HStack>
+          <HStack spacing="1rem">
+            <input
+              type="checkbox"
+              {...register('korWordQuiz')}
+              defaultChecked={true}
+            />
+            <span>뜻에 맞는 영어 고르기</span>
+          </HStack>
+          <HStack spacing="1rem">
+            <input
+              type="checkbox"
+              {...register('blankQuiz')}
+              defaultChecked={true}
+            />
+            <span>빈칸 채우기</span>
+          </HStack>
           <input type="submit" />
-        </HStack>
+        </VStack>
       </form>
       {isSubmitted && !isGenerated && <p>학습지 제작 중...</p>}
       {isGenerated && (
-        <>
-          <Button
-            onClick={() => downloadFile(workSheetUrl, 'work-sheet')}
-            element={<p>학습지 다운로드</p>}
-          />
-          <Button
-            onClick={() => downloadFile(answerSheetUrl, 'answer-sheet')}
-            element={<p>해설 다운로드</p>}
-          />
-        </>
+        <Button
+          onClick={() => downloadFile(sheetUrl, 'worksheet')}
+          element={<p>학습지 다운로드</p>}
+        />
       )}
     </VStack>
   );

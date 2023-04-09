@@ -8,9 +8,9 @@ const { LandingPage } = lazyImport(
   'LandingPage'
 );
 
-const { CreateWorkSheetPage } = lazyImport(
-  () => import('@/pages/CreateWorkSheetPage'),
-  'CreateWorkSheetPage'
+const { CreateSheetPage } = lazyImport(
+  () => import('@/pages/CreateSheetPage'),
+  'CreateSheetPage'
 );
 const { ErrorPage } = lazyImport(
   () => import('@/pages/ErrorPage'),
@@ -34,7 +34,7 @@ export const AppRoutes = () => {
       element: <App />,
       children: [
         { path: '/', element: <LandingPage /> },
-        { path: '/create-work-sheet', element: <CreateWorkSheetPage /> },
+        { path: '/create-sheet', element: <CreateSheetPage /> },
         { path: '/404', element: <ErrorPage statusCode={404} /> },
       ],
     },

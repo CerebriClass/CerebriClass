@@ -28,7 +28,9 @@ class WordQuizType:
 
 class BlankQuizType:
     sentence: str
-    answer: str
+    chocies: List[str]
+    choice_idxs: List[int]
+    answer: int
     meaning: str
 
 
