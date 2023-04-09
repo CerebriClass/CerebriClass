@@ -20,4 +20,6 @@ requester
 
 - python
 - fastapi
-- openai
+- python-docx
+- 생성 : openai
+- 번역 : papago API
