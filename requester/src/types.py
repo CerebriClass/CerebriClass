@@ -5,7 +5,7 @@ from typing import List
 @dataclass
 class DictionaryType:
     word: str
-    part_of_speech: str  # enum
+#    part_of_speech: str  # enum
     meaning: str
 
 
