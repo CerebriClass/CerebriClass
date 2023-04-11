@@ -1,7 +1,9 @@
 import { MainLayout } from '@/components/layouts/MainLayout';
 import { lazyImport } from '@/utils/lazyImport';
+import { useTheme } from '@emotion/react';
 import { Suspense } from 'react';
-import { Navigate, Outlet, useRoutes } from 'react-router-dom';
+import { Outlet, useRoutes } from 'react-router-dom';
+import { PuffLoader } from 'react-spinners';
 
 const { LandingPage } = lazyImport(
   () => import('@/pages/LandingPage'),
@@ -12,15 +14,25 @@ const { CreateSheetPage } = lazyImport(
   () => import('@/pages/CreateSheetPage'),
   'CreateSheetPage'
 );
-const { ErrorPage } = lazyImport(
+
+const { AboutPage } = lazyImport(
+  () => import('@/pages/AboutPage'),
+  'AboutPage'
+);
+
+const { NotFoundPage } = lazyImport(
   () => import('@/pages/ErrorPage'),
-  'ErrorPage'
+  'NotFoundPage'
 );
 
 const App = () => {
+  const theme = useTheme();
+
   return (
     <MainLayout>
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense
+        fallback={<PuffLoader color={theme.colors.primary.default} loading />}
+      >
         <Outlet />
       </Suspense>
     </MainLayout>
@@ -35,12 +47,12 @@ export const AppRoutes = () => {
       children: [
         { path: '/', element: <LandingPage /> },
         { path: '/create-sheet', element: <CreateSheetPage /> },
-        { path: '/404', element: <ErrorPage statusCode={404} /> },
+        { path: '/about', element: <AboutPage /> },
+        { path: '*', element: <NotFoundPage /> },
       ],
     },
   ];
-  const restRoutes = [{ path: '*', element: <Navigate to="/404" /> }];
-  const element = useRoutes([...commonRoutes, ...restRoutes]);
+  const element = useRoutes([...commonRoutes]);
 
   return <>{element}</>;
 };

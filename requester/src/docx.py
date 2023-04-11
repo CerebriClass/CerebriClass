@@ -9,7 +9,9 @@ from docx.enum.table import WD_ALIGN_VERTICAL, WD_TABLE_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_COLOR_INDEX, WD_LINE_SPACING
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
+from docx.oxml.text.run import CT_R
 from docx.shared import Cm, Inches, Mm, Pt, RGBColor
+from docx.text.run import Run
 from src.types import ResultType
 
 
@@ -17,6 +19,24 @@ def add_bold_paragraph(document, text):
     paragraph = document.add_paragraph()
     run = paragraph.add_run(text)
     run.bold = True
+    return paragraph
+
+
+def add_bold_paragraph_only_target(document, text, target):
+    paragraph = document.add_paragraph()
+    runs = paragraph.add_run(text)
+    # TODO: 매칭되는 문자열 bold 처리
+    # start = 0
+    # while True:
+    #     start = text.find(target, start)
+    #     if start == -1:
+    #         break
+    #     end = start + len(target)
+    #     for i, char in enumerate(runs.text[start:end]):
+    #         r_idx = start + i
+    #         run = runs.runs[r_idx]
+    #         run.bold = True
+    #     start = end
     return paragraph
 
 
@@ -70,7 +90,8 @@ def make_example_sentences(doc: Document, result: ResultType):
     for i, elem in enumerate(result['example_sentences']):
         add_bold_paragraph(doc, f"{i+1}. {elem['word']}")
         for sentence in elem['sentences']:
-            doc.add_paragraph(f"{sentence['sentence']}")
+            add_bold_paragraph_only_target(
+                doc, sentence['sentence'], elem['word'])
             doc.add_paragraph(f"{sentence['meaning']}")
 
 

@@ -1,21 +1,39 @@
 import { Header } from '@/components/elements/Header';
 import styled from '@emotion/styled';
+import { VStack } from '../common';
 
 export const MainLayout = ({ children }: React.PropsWithChildren) => {
   return (
     <>
       <Header />
-      <PageWrapper>{children}</PageWrapper>
+      <PageWrapper>
+        <VStack w="100%" h="100%">
+          {children}
+        </VStack>
+      </PageWrapper>
+      <StartupStationLogoPositioner>
+        <img
+          src="/startup-station-logo.svg"
+          style={{
+            position: 'fixed',
+            bottom: '2rem',
+            right: '2rem',
+          }}
+        />
+      </StartupStationLogoPositioner>
     </>
   );
 };
 
 const PageWrapper = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
   height: 100%;
-  margin-top: 5rem;
-  padding-top: 2rem;
+  padding-top: 4rem;
+  background-color: ${({ theme }) => theme.colors.background};
+`;
+
+const StartupStationLogoPositioner = styled.span`
+  position: sticky;
+  bottom: 0;
+  right: 0;
 `;

@@ -1,4 +1,4 @@
-export const LogoSvg = () => {
+export const LogoSvg = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
       version="1.0"
@@ -7,10 +7,10 @@ export const LogoSvg = () => {
       height="200"
       viewBox="0 0 1178.000000 212.000000"
       preserveAspectRatio="xMidYMid meet"
+      {...props}
     >
       <g
         transform="translate(0.000000,212.000000) scale(0.100000,-0.100000)"
-        fill="#000000"
         stroke="none"
       >
         <path
