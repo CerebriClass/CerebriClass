@@ -29,8 +29,11 @@ export const CreateSheetPage = () => {
   const [isFulFilled, setIsFulFilled] = useState<boolean>(false);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [isGenerated, setIsGenerated] = useState<boolean>(false);
+  const [isDownloadButtonClicked, setIsDownloadButtonClicked] =
+    useState<boolean>(false);
 
   const downloadFile = async (url: string, filename: string) => {
+    setIsDownloadButtonClicked(true);
     const response = await get(url);
     const blob = await response.blob();
     const link = document.createElement('a');
@@ -78,22 +81,22 @@ export const CreateSheetPage = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <VStack spacing="3rem">
             <LogoSvg width="300px" height="70px" />
-            <InputWrapper>
-              <FormRawTextInput
-                placeholder="쉼표로 구분하고 영어단어 5개 이상을 입력해주세요"
-                {...register('rawText', {
-                  required: true,
-                  onChange: handleChange,
-                })}
-              />
-              <Button
-                type="submit"
-                disabled={!isFulFilled}
-                element={<SubmitButtonView disabled={!isFulFilled} />}
-              />
-            </InputWrapper>
             {!isSubmitted ? (
               <>
+                <InputWrapper>
+                  <FormRawTextInput
+                    placeholder="쉼표로 구분하고 영어단어 5개 이상을 입력해주세요"
+                    {...register('rawText', {
+                      required: true,
+                      onChange: handleChange,
+                    })}
+                  />
+                  <Button
+                    type="submit"
+                    disabled={!isFulFilled}
+                    element={<SubmitButtonView disabled={!isFulFilled} />}
+                  />
+                </InputWrapper>
                 <Text>
                   입력한{' '}
                   <PrimaryText fontWeight={700}>
@@ -140,7 +143,12 @@ export const CreateSheetPage = () => {
                     <Text>완성했어요! 🥳</Text>
                     <Button
                       onClick={() => downloadFile(sheetUrl, 'worksheet')}
-                      element={<DownloadButtonView />}
+                      element={
+                        <DownloadButtonView
+                          isDownloadButtonClicked={isDownloadButtonClicked}
+                        />
+                      }
+                      disabled={isDownloadButtonClicked}
                     />
                   </>
                 )}
@@ -204,9 +212,13 @@ const SubmitButtonViewLayout = styled.div`
   border-radius: 50%;
 `;
 
-const DownloadButtonView = () => {
+type DownloadButtonViewProps = {
+  isDownloadButtonClicked: boolean;
+};
+
+const DownloadButtonView = (props: DownloadButtonViewProps) => {
   return (
-    <DownloadButtonViewLayout>
+    <DownloadButtonViewLayout {...props}>
       <HStack spacing="0.8rem">
         <DownloadSvg width="18px" fill="white" />
         <Text color="white">다운로드하기</Text>
@@ -215,11 +227,16 @@ const DownloadButtonView = () => {
   );
 };
 
-const DownloadButtonViewLayout = styled.div`
+type DownloadButtonViewLayoutProps = {
+  isDownloadButtonClicked: boolean;
+};
+
+const DownloadButtonViewLayout = styled.div<DownloadButtonViewLayoutProps>`
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0.7rem 1.5rem;
   border-radius: 1.5rem;
-  background-color: ${({ theme }) => theme.colors.primary.default};
+  background-color: ${({ isDownloadButtonClicked, theme }) =>
+    !isDownloadButtonClicked ? theme.colors.primary.default : 'gray'};
 `;

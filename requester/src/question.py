@@ -4,7 +4,7 @@ from typing import List
 
 import openai
 from dotenv import find_dotenv, load_dotenv
-from src.openai import create_random
+from src.openai import create_random, translate_with_gpt
 from src.papago import translate, translate_word
 from src.types import (BlankQuizType, DictionaryType, ExampleSentencesType,
                        WordQuizType)
@@ -38,7 +38,7 @@ def get_example_sentences(words: List[str]) -> List[ExampleSentencesType]:
 
         sentences = {
             'word': word,
-            'sentences': [{'sentence': sentence, 'meaning': translate(sentence)} for sentence in sentences]
+            'sentences': [{'sentence': sentence, 'meaning': translate_with_gpt(sentence)} for sentence in sentences]
         }
         ret.append(sentences)
     return ret
