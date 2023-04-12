@@ -26,6 +26,8 @@ dist-ssr
 
 # dotenv environment variables file
 .env
+.env.local
+.env.development
 
 # python compile caches
 *.pyc

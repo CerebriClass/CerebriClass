@@ -1,3 +1,3 @@
 #!/bin/sh
 
-pnpm i && pnpm run dev
+pnpm i && pnpm build

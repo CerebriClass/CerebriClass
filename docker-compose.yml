@@ -20,5 +20,19 @@ services:
     ports:
       - 9001:9001
     entrypoint: sh /tmp/entrypoint.sh
+    restart: 'on-failure'
     env_file:
       - ./requester/.env
+  nginx:
+    container_name: cerebri-class-nginx
+    build:
+      context: ./nginx
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+    ports:
+      - 80:80
+    entrypoint: sh /tmp/entrypoint.sh
+    restart: 'on-failure'
+    depends_on: # FIXME: 어차피 시작만 종속적이라 의미 없음. build 끝나면 시작하도록 수정 필요.
+      - frontend
+      - requester

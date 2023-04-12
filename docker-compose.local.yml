@@ -1,0 +1,24 @@
+version: '3'
+services:
+  frontend:
+    container_name: cerebri-class-frontend
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - 9000:9000
+    entrypoint: sh /tmp/entrypoint.local.sh
+    env_file:
+      - ./frontend/.env.local
+  requester:
+    container_name: cerebri-class-requester
+    build:
+      context: ./requester
+    volumes:
+      - ./requester:/app
+    ports:
+      - 9001:9001
+    entrypoint: sh /tmp/entrypoint.sh
+    env_file:
+      - ./requester/.env.local
