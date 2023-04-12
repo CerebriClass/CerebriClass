@@ -22,14 +22,19 @@ def get_example_sentences(words: List[str]) -> List[ExampleSentencesType]:
     for word in words:
         prompt = f"Make a long sentence with the word \"{word}\" consistent to the part of the sentence."
         sentences = []
-        for attempt in range(3):
+        for attempt in range(4):
             left = 2 - len(sentences)
             if not left:
                 break
             results = create_random(prompt, n=left)
             results = set([result.strip() for result in results])  # 중복 제거
+            pattern = re.compile(word, re.IGNORECASE)
+
+            if attempt == 3:
+                sentences.extend(results)  # 마지막이라면 무조건 추가
+                break
             for result in results:
-                if result.find(word) == -1:
+                if pattern.search(result) is None:
                     continue
                 for sentence in sentences:  # 중복 제거
                     if result == sentence:

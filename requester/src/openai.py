@@ -27,5 +27,5 @@ def create_random(prompt: str, n: int = 1, max_tokens: int = 60) -> List[str]:
 
 
 def translate_with_gpt(sentence: str) -> str:
-    prompt = f"Translate this sentence with korean: {sentence}"
+    prompt = f"Translate into Korean: {sentence}"
     return create(prompt, max_tokens=200, temperature=0.9)[0]

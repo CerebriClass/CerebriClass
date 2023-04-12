@@ -44,11 +44,17 @@ export const CreateSheetPage = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const test = value
+    const chunked = value
       .split(',')
       .map((word) => word.trim())
       .filter(Boolean);
-    setIsFulFilled(5 <= test.length && test.length <= 15);
+    const isWordLengthLimitSatisfied =
+      5 <= chunked.length && chunked.length <= 15;
+
+    // TODO: 정규식으로 제한. ChatGPT Injection 방지? 하지만 사용 가능/불가능 특수문자 구분 필요.
+    // const pattern = new RegExp(/^[a-zA-Z0-9, !?]+$/);
+    // const isRegexSatisfied = chunked.every((elem) => pattern.test(elem));
+    setIsFulFilled(isWordLengthLimitSatisfied);
   };
 
   const onSubmit = async (data: FormType) => {
@@ -88,6 +94,7 @@ export const CreateSheetPage = () => {
                     placeholder="쉼표로 구분하고 영어단어 5개 이상을 입력해주세요"
                     {...register('rawText', {
                       required: true,
+                      pattern: /^[a-zA-Z0-9, !?]+$/,
                       onChange: handleChange,
                     })}
                   />
