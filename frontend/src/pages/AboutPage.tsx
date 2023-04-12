@@ -26,7 +26,7 @@ export const AboutPage = () => {
             </h2>
           </VStack>
 
-          <VStack align="start" spacing="1rem">
+          <VStack align="start" spacing="2rem">
             <Text>
               한국은 그 어떠한 나라보다도 영어 교육에 시간을 많이 쏟는
               나라입니다. ‘국·영·수’를 지칭하는 필수 과목에 대한 표현에서부터도
@@ -36,7 +36,7 @@ export const AboutPage = () => {
               이유를 꼽습니다.
             </Text>
 
-            <ul style={{ marginLeft: '2rem' }}>
+            <VStack w="100%" as="ul">
               <li>
                 <Text
                   fontWeight={theme.fonts.weight.medium}
@@ -53,7 +53,7 @@ export const AboutPage = () => {
                   2. 주입 중심의 영어 교육
                 </Text>
               </li>
-            </ul>
+            </VStack>
 
             <Text>
               우리 스토리보드랩은 한국의 고질적인 영어 교육 문제를 해결하고 위해
@@ -61,7 +61,7 @@ export const AboutPage = () => {
               합니다.
             </Text>
 
-            <ul style={{ marginLeft: '2rem' }}>
+            <VStack w="100%" as="ul">
               <li>
                 <Text
                   fontWeight={theme.fonts.weight.medium}
@@ -78,7 +78,7 @@ export const AboutPage = () => {
                   2. 활용 중심의 영어 교육
                 </Text>
               </li>
-            </ul>
+            </VStack>
           </VStack>
 
           <VStack align="start" spacing="1rem">

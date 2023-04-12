@@ -46,7 +46,6 @@ export const CreateSheetPage = () => {
       .map((word) => word.trim())
       .filter(Boolean);
     setIsFulFilled(5 <= test.length && test.length <= 15);
-    console.log(isFulFilled);
   };
 
   const onSubmit = async (data: FormType) => {
