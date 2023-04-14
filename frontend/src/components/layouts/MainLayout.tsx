@@ -13,7 +13,8 @@ export const MainLayout = ({ children }: React.PropsWithChildren) => {
       </PageWrapper>
       <StartupStationLogoPositioner>
         <img
-          src="/startup-station-logo.svg"
+          src="/startup-station-logo.png"
+          width="140px"
           style={{
             position: 'fixed',
             bottom: '2rem',

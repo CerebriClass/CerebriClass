@@ -2,13 +2,8 @@ import { MainLayout } from '@/components/layouts/MainLayout';
 import { lazyImport } from '@/utils/lazyImport';
 import { useTheme } from '@emotion/react';
 import { Suspense } from 'react';
-import { Outlet, useRoutes } from 'react-router-dom';
+import { Navigate, Outlet, useRoutes } from 'react-router-dom';
 import { PuffLoader } from 'react-spinners';
-
-const { LandingPage } = lazyImport(
-  () => import('@/pages/LandingPage'),
-  'LandingPage'
-);
 
 const { CreateSheetPage } = lazyImport(
   () => import('@/pages/CreateSheetPage'),
@@ -45,7 +40,7 @@ export const AppRoutes = () => {
       path: '/',
       element: <App />,
       children: [
-        { path: '/', element: <LandingPage /> },
+        { path: '/', element: <Navigate to="/create-sheet" /> },
         { path: '/create-sheet', element: <CreateSheetPage /> },
         { path: '/about', element: <AboutPage /> },
         { path: '*', element: <NotFoundPage /> },
